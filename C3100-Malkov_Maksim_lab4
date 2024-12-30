@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+
+
+void Rec(std::vector<int>& arr, int k, int start, int depth, std::vector<int>& indices) {
+    int n = arr.size();
+
+    if (depth == k) {
+        int sum = 0;
+        for (int idx : indices) {
+            sum += arr[idx];
+        }
+        if (sum == 0) {
+            for (int idx : indices) {
+                std::cout << idx << " ";
+            }
+            std::cout << std::endl;
+        }
+        return;
+    }
+
+    for (int i = start; i < n; ++i) {
+        indices.push_back(i);
+        Rec(arr, k, i + 1, depth + 1, indices);
+        indices.pop_back();
+    }
+}
+
+void findSubarrays(std::vector<int>& arr, int k) {
+    std::vector<int> indices;
+    Rec(arr, k, 0, 0, indices);
+}
+
+int main() {
+    int n, k;
+    std::cin >> n;
+    std::cin >> k;
+
+    std::vector<int> arr(n);
+    for (int i = 0; i < n; ++i) {
+        std::cin >> arr[i];
+    }
+    findSubarrays(arr, k);
+}
